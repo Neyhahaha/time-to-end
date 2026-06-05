@@ -10,6 +10,16 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --bg-glass: rgba(30, 41, 59, 0.6);
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --border-color: rgba(148, 163, 184, 0.1);
+  --shadow-neu: 6px 6px 12px rgba(0, 0, 0, 0.4), -6px -6px 12px rgba(51, 65, 85, 0.3);
+  --shadow-neu-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.4), inset -4px -4px 8px rgba(51, 65, 85, 0.2);
+  --shadow-glow-coral: 0 0 30px rgba(255, 107, 107, 0.3);
+  --shadow-glow-mint: 0 0 30px rgba(78, 205, 196, 0.3);
 }
 
 .dark {

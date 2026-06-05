@@ -36,6 +36,13 @@ interface CountdownState {
 
 const STORAGE_KEY = 'countdown-app-data';
 
+function generateId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 11);
+}
+
 function loadFromStorage(): { countdowns: Countdown[]; settings: AppSettings } {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
@@ -79,7 +86,7 @@ export const useCountdownStore = create<CountdownState>((set) => ({
     set((state) => {
       const newCountdown: Countdown = {
         ...countdown,
-        id: crypto.randomUUID(),
+        id: generateId(),
         createdAt: new Date().toISOString(),
       };
       const countdowns = [...state.countdowns, newCountdown];

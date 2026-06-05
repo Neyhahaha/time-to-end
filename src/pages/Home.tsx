@@ -59,7 +59,7 @@ export default function Home() {
   }, [countdowns, isNotified, markNotified, sendNotification]);
 
   useEffect(() => {
-    if (settings.notificationEnabled && Notification.permission === 'default') {
+    if (settings.notificationEnabled && typeof Notification !== 'undefined' && Notification.permission === 'default') {
       Notification.requestPermission();
     }
   }, [settings.notificationEnabled]);

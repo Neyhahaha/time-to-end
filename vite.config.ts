@@ -6,6 +6,7 @@ export default defineConfig({
   base: '/time-to-end/',
   build: {
     sourcemap: 'hidden',
+    target: 'es2020',
   },
   plugins: [
     react(),

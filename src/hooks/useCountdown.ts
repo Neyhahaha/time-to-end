@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 export interface TimeLeft {
   days: number;
@@ -10,37 +10,28 @@ export interface TimeLeft {
   progress: number;
 }
 
-export function useCountdown(targetDate: string): TimeLeft {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => {
-    const target = new Date(targetDate).getTime();
-    const now = Date.now();
-    return calc(target, now);
-  });
-
-  const initialRemainingRef = useRef(timeLeft.totalMs);
+export function useCountdown(targetDate: string, createdAt?: string): TimeLeft {
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(() =>
+    calc(new Date(targetDate).getTime(), Date.now(), createdAt ? new Date(createdAt).getTime() : undefined)
+  );
 
   useEffect(() => {
     const target = new Date(targetDate).getTime();
-    const now = Date.now();
-    const initial = calc(target, now);
-    initialRemainingRef.current = initial.totalMs > 0 ? initial.totalMs : 1;
-    setTimeLeft(initial);
-  }, [targetDate]);
+    const created = createdAt ? new Date(createdAt).getTime() : undefined;
 
-  useEffect(() => {
+    setTimeLeft(calc(target, Date.now(), created));
+
     const timer = setInterval(() => {
-      const target = new Date(targetDate).getTime();
-      const now = Date.now();
-      setTimeLeft(calc(target, now, initialRemainingRef.current));
-    }, 500);
+      setTimeLeft(calc(target, Date.now(), created));
+    }, 200);
 
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, [targetDate, createdAt]);
 
   return timeLeft;
 }
 
-function calc(target: number, now: number, initialMs?: number): TimeLeft {
+function calc(target: number, now: number, created?: number): TimeLeft {
   const remaining = target - now;
 
   if (remaining <= 0) {
@@ -53,10 +44,10 @@ function calc(target: number, now: number, initialMs?: number): TimeLeft {
   const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
   let progress: number;
-  if (initialMs && initialMs > 0) {
-    progress = Math.min(1, Math.max(0, 1 - remaining / initialMs));
+  if (created && target > created) {
+    progress = Math.min(1, Math.max(0, (now - created) / (target - created)));
   } else {
-    progress = Math.min(1, Math.max(0, 1 - remaining / (1000 * 60 * 60 * 24)));
+    progress = 0;
   }
 
   return { days, hours, minutes, seconds, totalMs: remaining, isExpired: false, progress };

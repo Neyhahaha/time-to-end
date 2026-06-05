@@ -23,7 +23,7 @@ export default function Home() {
   const { isNotified, markNotified } = useNotifiedCountdowns();
 
   const activeCountdown = countdowns.find((c) => c.id === activeCountdownId);
-  const activeTimeLeft = useCountdown(activeCountdown?.targetDate ?? '');
+  const activeTimeLeft = useCountdown(activeCountdown?.targetDate ?? '', activeCountdown?.createdAt);
 
   useEffect(() => {
     if (settings.theme === 'dark' && !isDark) {

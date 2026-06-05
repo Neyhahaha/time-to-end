@@ -11,7 +11,7 @@ interface CountdownCardProps {
 
 export default function CountdownCard({ countdown, isActive, onClick }: CountdownCardProps) {
   const { removeCountdown, togglePin, setActiveCountdown, setEditingCountdown, setShowForm } = useCountdownStore();
-  const timeLeft = useCountdown(countdown.targetDate);
+  const timeLeft = useCountdown(countdown.targetDate, countdown.createdAt);
   const { days, hours, minutes, seconds, isExpired } = timeLeft;
 
   const colorMap: Record<string, { bg: string; border: string; text: string; glow: string }> = {

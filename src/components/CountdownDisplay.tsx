@@ -6,7 +6,7 @@ interface CountdownDisplayProps {
 }
 
 export default function CountdownDisplay({ countdown }: CountdownDisplayProps) {
-  const timeLeft = useCountdown(countdown.targetDate);
+  const timeLeft = useCountdown(countdown.targetDate, countdown.createdAt);
   const { days, hours, minutes, seconds, isExpired, progress } = timeLeft;
 
   const radius = typeof window !== 'undefined' && window.innerWidth < 480 ? 100 : window.innerWidth < 768 ? 120 : 140;
@@ -65,7 +65,6 @@ export default function CountdownDisplay({ countdown }: CountdownDisplayProps) {
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
             style={{
-              transition: 'stroke-dashoffset 1s linear',
               filter: `drop-shadow(0 0 8px ${accentColor}66)`,
             }}
           />
